@@ -1,0 +1,47 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Categorias
+{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <h2 class="mb-4">Categories</h2>
+    <form method="post" action="{% url 'display_category' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="category">Select a category:</label>
+            <select name="category" id="category" class="form-control">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">View Listings</button>
+    </form>
+
+    {% if find_listing %}
+    <div class="container my-4">
+        <h2 class="mb-4">Listings in {{ category.name }}</h2>
+        <div class="row">
+            {% for listing in listings %}
+                {% if listing.active %}       
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="{{ listing.image_url }}" class="card-img-top" alt="{{ listing.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ listing.title }}</h5>
+                                <p class="card-text">{{ listing.description|truncatewords:20 }}</p>
+                                <p class="card-text"><strong>Starting Bid:</strong> ${{ listing.starting_bid }}</p>
+                                <p class="card-text"><strong>Current Price:</strong> ${{ listing.current_price }}</p>
+                                <a href="{% url 'view_listing' listing.id %}" class="btn btn-primary">View Listing</a>
+                            </div>
+                        </div>
+                    </div>               
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

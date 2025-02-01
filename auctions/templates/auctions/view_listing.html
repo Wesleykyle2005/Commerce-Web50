@@ -1,0 +1,87 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {{ listing.title }}
+{% endblock %}
+
+{% block body %}
+<div class="container my-3">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-left  display-2">{{ listing.title }}</h1>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <img class="card-img-top" src="{{ listing.image_url }}" alt="Listing image">
+        <div class="card-body">
+            <p class="card-text">{{ listing.description }}</p>
+            <p><strong>Category:</strong> {{ listing.category }}</p>
+            <p><strong>Starting bid:</strong> {{ listing.starting_bid }}</p>
+            <p><strong>Current price:</strong> {{ listing.current_price }}</p>
+
+            {% if not override %}
+            
+                {% if isowner %}
+                    <a class="btn btn-secondary" href="{% url 'close_auction' listing.id %}">Close auction</a>
+                {% else %}
+
+
+                {% if watching %}
+                    <a class="btn btn-danger" href="{% url 'add_watchlist' listing.id %}">Delete from watchlist</a>
+                {% else %}
+                    <a class="btn btn-secondary" href="{% url 'add_watchlist' listing.id %}">Add to watchlist</a>
+                {% endif %}
+                
+                    
+
+
+
+                    <form action="{% url 'add_bid' listing.id %}"  method="post">
+                        {% csrf_token %}
+                        <div class="form-group"><label for="">Make an offer higher than the current offer</label></div>
+                        <input type="number"name="bid" min="{{min_bid}}" value="{{min_bid}}" step="0.01" decimal-places="2" class="form-control">
+                        <button type="submit" class="btn btn-primary">Bid up</button> 
+                    </form>
+                                
+                {% endif %}
+            
+            {% endif %}
+            
+
+
+        </div>
+    </div>
+
+
+    {% if not override %}
+        <div class="card p-3 mb-3">
+            <h4 class="mb-3">Add a comment</h4>
+            <form action="{% url 'add_comment' listing.id %}" method="post">
+                {% csrf_token %}
+                <div class="form-group mb-2">
+                    <label for="comment">{{ comment_form.comment.label }}</label>
+                    {{ comment_form.comment }}
+                </div>
+                <button type="submit" class="btn btn-secondary">Post</button>
+            </form>
+        </div>
+    {% endif %}
+        
+
+    <div class="card p-3">
+        <h4 class="mb-3">Comments</h4>
+        {% if comments %}
+            <ul class="list-group">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    <strong>{{ comment.author }}:</strong> {{ comment.content }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no comments yet</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

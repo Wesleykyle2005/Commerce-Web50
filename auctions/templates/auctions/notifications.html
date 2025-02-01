@@ -1,0 +1,37 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Notifications
+{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <h2 class="mb-4">Notifications</h2>
+    <div class="row">
+        {% for notification in user.notifications.all %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm {% if not notification.read %}text-white bg-secondary{% endif %}">
+
+                    <div class="card-body">
+                        <p class="card-text">{{ notification.message }}</p>
+                        <p class="card-text"><small class="custom-text-muted">{{ notification.timestamp }}</small></p>
+                        {% if notification.listing %}
+                            {% if notification.listing.active %}
+                                <a href="{% url 'view_listing' listing_id=notification.listing.id %}" class="btn btn-primary">View Listing</a>
+                            {% else %}
+                                <a href="{% url 'view_listing' listing_id=notification.listing.id override='force_view' %}" class="btn btn-primary">View Listing</a>
+                            {% endif %}
+
+                                {% if not notification.read %}
+                                    <a href="{% url 'mark_read' notification_id=notification.id %}" class="btn btn-success">✓</a>
+                                {% endif %}
+
+                               
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

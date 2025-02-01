@@ -1,0 +1,35 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Create new listing
+{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+    <h2 class="mb-4">Create New Listing</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_title">{{ form.title.label }}</label>
+            {{ form.title}}
+        </div>
+        <div class="form-group">
+            <label for="id_category">{{ form.category.label }}</label>
+            {{ form.category}}
+        </div>
+        <div class="form-group">
+            <label for="id_description">{{ form.description.label }}</label>
+            {{ form.description}}
+        </div>
+        <div class="form-group">
+            <label for="id_starting_bid">{{ form.starting_bid.label }}</label>
+            {{ form.starting_bid }}
+        </div>
+        <div class="form-group">
+            <label for="id_image_url">{{ form.image_url.label }}</label>
+            {{ form.image_url }}
+        </div>
+        <button class="btn btn-primary mt-3" type="submit">Create</button>
+    </form>
+</div>
+{% endblock %}
