@@ -1,138 +1,141 @@
-# 🛒 Commerce Web50 — Solución del Proyecto CS50W
+# 🛒 Commerce Web50 — CS50W Project Solution
 
-Bienvenido a **Commerce Web50**, una implementación completa del proyecto de subastas en línea tipo eBay, desarrollado como parte del curso **CS50’s Web Programming with Python and JavaScript**. Esta solución está construida con **Django** y cumple con todos los requisitos establecidos por el proyecto original.
+
+🗪 README.md en español: [README_ES.md](README_ES.md)
+
+**Commerce Web50**, a full-featured implementation of the online auction project inspired by eBay, developed as part of **CS50’s Web Programming with Python and JavaScript**. This solution is built using **Django** and fulfills all the specifications outlined in the original assignment.
 
 ---
 
-## 📸 Capturas de Pantalla
+## 📸 Screenshots
 
-* **Listados Activos**
-  ![Listados Activos](auctions/static/auctions/images/Active_listings.png)
+* **Active Listings**
+  ![Active Listings](auctions/static/auctions/images/Active_listings.png)
 
-* **Crear Nuevo Listado**
-  ![Crear Listado](auctions/static/auctions/images/Create_new_listing.png)
+* **Create New Listing**
+  ![Create Listing](auctions/static/auctions/images/Create_new_listing.png)
 
-* **Ver Listado**
-  ![Ver Listado](auctions/static/auctions/images/view_listing.png)
+* **View Listing**
+  ![View Listing](auctions/static/auctions/images/view_listing.png)
 
-* **Lista de Seguimiento**
+* **Watchlist**
   ![Watchlist](auctions/static/auctions/images/Watchlist.png)
 
 ---
 
-## 🧾 Descripción General
+## 🧾 Overview
 
-Esta plataforma permite a los usuarios:
+This platform allows users to:
 
-* Publicar subastas con título, descripción, precio inicial, imagen y categoría.
-* Hacer ofertas en tiempo real que superen la anterior.
-* Comentar en los anuncios.
-* Agregar listados a una lista de seguimiento personal.
-* Cerrar subastas y notificar automáticamente al ganador.
-* Recibir notificaciones relevantes dentro del sistema.
-* Filtrar y explorar subastas activas por categorías.
+* Create auctions with title, description, starting price, optional image, and optional category.
+* Place bids in real time, with validation to ensure bids are higher than the current maximum.
+* Post public comments on listings.
+* Add or remove listings from a personal watchlist.
+* Close their own auctions, automatically notifying the winner if any.
+* Receive in-app notifications relevant to their activity.
+* Filter and browse active auctions by category.
 
 ---
 
-## ⚙️ Configuración del Proyecto
+## ⚙️ Project Setup
 
-### 1. Clonar el repositorio
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Wesleykyle2005/Commerce-Web50.git
 cd Commerce-Web50
 ```
 
-### 2. Instalar dependencias
+### 2. Install dependencies
 
 ```bash
 pip install django
 ```
 
-### 3. Migrar la base de datos
+### 3. Apply database migrations
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 4. Insertar datos de prueba
+### 4. Insert demo data
 
 ```bash
 python make_insertions.py
 ```
 
-Este script genera:
+This script generates:
 
-* 30 usuarios
-* 30 categorías
-* 30 listados con ofertas y comentarios predefinidos
-* Superusuario:
+* 30 user accounts
+* 30 categories
+* 30 listings with predefined bids and comments
+* Superuser credentials:
 
-  * **Usuario:** `Admin1234`
-  * **Contraseña:** `Admin1234`
+  * **Username:** `Admin1234`
+  * **Password:** `Admin1234`
 
-### 5. Ejecutar el servidor
+### 5. Run the development server
 
 ```bash
 python manage.py runserver
 ```
 
-Accede a través de: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+Access via: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ---
 
-## 📐 Detalles de Implementación
+## 📐 Implementation Details
 
-* **Modelos personalizados:**
+* **Custom models:**
 
-  * Usuario (`AbstractUser`), Subasta, Oferta, Comentario, Categoría.
+  * `User` (extends `AbstractUser`), `Auction`, `Bid`, `Comment`, `Category`
 
-* **Formulario de creación de subasta:**
+* **Auction creation form:**
 
-  * Permite definir campos como título, descripción, imagen (opcional) y categoría (opcional).
+  * Supports title, description, starting bid, optional image upload, and category selection.
 
-* **Listados activos:**
+* **Active listings:**
 
-  * Página principal que muestra las subastas en curso.
+  * Home page shows all currently open auctions.
 
-* **Vista de subasta:**
+* **Auction detail view:**
 
-  * Ofertar, comentar, agregar/eliminar de la watchlist, cerrar la subasta.
+  * Enables bidding, commenting, managing watchlist, and auction closure (by owner only).
 
-* **Lista de seguimiento (Watchlist):**
+* **Watchlist:**
 
-  * Vista personalizada por usuario para seguir listados de interés.
+  * Per-user view to track listings of interest.
 
-* **Navegación por categorías:**
+* **Category navigation:**
 
-  * Permite filtrar subastas activas según su categoría.
+  * Allows filtering of open listings by category.
 
-* **Panel administrativo:**
+* **Admin panel:**
 
-  * Gestión completa a través de `/admin` con el superusuario.
-
----
-
-## 🛠️ Consideraciones Técnicas
-
-* Las rutas sensibles están protegidas con `@login_required`.
-* El sistema de notificaciones se integra con los modelos de usuario.
-* Paginación incluida para mejorar rendimiento en grandes volúmenes de datos.
-* Uso de clases heredadas de Django para mantener el proyecto escalable y mantenible.
+  * Full Django admin support at `/admin`, accessible via the provided superuser.
 
 ---
 
-## 🔗 Accesos Rápidos
+## 🛠️ Technical Considerations
 
-* **Panel de administración:**
+* Sensitive routes are protected using the `@login_required` decorator.
+* Notifications are implemented via Django’s user messaging framework.
+* Pagination is included to ensure performance at scale.
+* Class-based views and model inheritance are employed to keep the project modular and extensible.
+
+---
+
+## 🔗 Quick Access
+
+* **Admin interface:**
   [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
-  Usa las credenciales del superusuario creadas anteriormente.
+  Use the superuser credentials provided above.
 
-* **Funcionalidades destacadas:**
+* **Key features summary:**
 
-  * Usuarios registrados pueden crear, ofertar y cerrar subastas.
-  * Las ofertas solo son válidas si superan la oferta más alta.
-  * Las notificaciones se muestran en la barra de navegación.
-  * Los usuarios pueden seguir y dejar de seguir listados.
-  * Solo el creador puede cerrar su subasta manualmente.
+  * Registered users can create auctions, place bids, and close their own listings.
+  * Bids are only accepted if they exceed the current highest offer.
+  * Real-time notifications are shown in the navigation bar.
+  * Listings can be added to or removed from a personal watchlist.
+  * Only the listing creator is allowed to close the auction manually.
